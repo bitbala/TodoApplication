@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Detail</title>
+</head>
+<body>
+    <h1>Todo Detail</h1>
+    <p><strong>Title:</strong> {{ todo.title }}</p>
+    <strong>Created by: {{ todo.user }} </strong>
+    <a href="{% url 'todo_update' todo.id %}">Update</a>
+    <form action="{% url 'todo_delete' todo.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+</body>
+</html>
