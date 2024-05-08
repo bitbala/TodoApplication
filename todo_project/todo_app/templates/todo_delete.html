@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Delete</title>
-</head>
-<body>
-    <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete "{{ todo.title }}"?</p>
-    <form action="{% url 'todo_delete' todo.id %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Yes, delete">
-    </form>
-    <a href="{% url 'todo_list' %}">Cancel</a>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}
+    Confirm Delete
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <p>Are you sure you want to delete "{{ todo.title }}"?</p>
+        <form action="{% url 'todo_delete' todo.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mr-2">Yes, delete</button>
+            <a href="{% url 'todo_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

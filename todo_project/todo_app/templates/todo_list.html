@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+    Todo List
+{% endblock %}
+
+{% block content %}
     <h1>Todo List</h1>
-    <ul>
+    <ul class="list-group">
         {% for todo in todos %}
-            <li>{{ todo.title }} <a href="{% url 'todo_delete' todo.id %}">Delete</a> <a href="{% url 'todo_update' todo.id %}">Update</a></li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'todo_detail' todo.id %}">{{ todo.title }}</a>
+                <span>
+                    <a href="{% url 'todo_delete' todo.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'todo_update' todo.id %}" class="btn btn-primary btn-sm">Update</a>
+                </span>
+            </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'todo_create' %}">Add Todo</a>
-</body>
-</html>
+    <a href="{% url 'todo_create' %}" class="btn btn-success mt-3">Add Todo</a>
+{% endblock %}

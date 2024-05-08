@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Todo</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+    Create Todo
+{% endblock %}
+
+{% block content %}
     <h1>Create Todo</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title"><br><br>
-        <input type="submit" value="Create">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
     </form>
-</body>
-</html>
+{% endblock %}

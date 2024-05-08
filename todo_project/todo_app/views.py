@@ -4,6 +4,8 @@ from .models import TodoItem
 from django.contrib import messages
 import requests
 from django.utils.encoding import force_str
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 
 @login_required
 def todo_list(request):
@@ -70,10 +72,6 @@ def todo_delete(request, todo_id):
         return redirect('todo_list')
     return render(request, 'todo_delete.html', {'todo': todo})
 
-
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -87,3 +85,7 @@ def login_view(request):
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login_view')
