@@ -6,6 +6,8 @@
 
 {% block content %}
     <h1>Todo List</h1>
+    <a href="{% url 'todo_create' %}" class="btn btn-success mt-3">Add Todo</a>
+    <br /><br />
     <ul class="list-group">
         {% for todo in todos %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
