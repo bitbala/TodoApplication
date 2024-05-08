@@ -6,6 +6,8 @@ import requests
 from django.utils.encoding import force_str
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+from .forms import RegistrationForm
+from django.utils.encoding import force_str
 
 @login_required
 def todo_list(request):
@@ -35,7 +37,6 @@ def send_email(user_email, subject, message):
     # URL of the external service to send email
     url = 'http://127.0.0.1:8001/send-email/'
     try:
-        print (email_data)
         response = requests.post(url, json=email_data)
         response.raise_for_status()
     except requests.RequestException as e:
@@ -89,3 +90,32 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login_view')
+
+def register(request):
+    success_message = None
+    error_message = None
+
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+            
+            # Forward registration request to microservice
+            url = 'http://127.0.0.1:8000/account/api/register/'
+            data = {'name': name, 'email': email, 'password': password}
+            print (data)
+            response = requests.post(url, json=data)
+            if response.status_code == 200:
+                # Registration successful, redirect to login page or any other page
+                success_message = 'Registration successful. You can now log in.'
+                form.add_error(None, success_message)
+            else:
+                # Registration failed, handle the error
+                error_message = "Registration failed. Please try again."
+                form.add_error(None, error_message)
+    else:
+        form = RegistrationForm()
+    context = {'form': form, 'success_message': success_message, 'error_message': error_message}
+    return render(request, 'register.html', context)
