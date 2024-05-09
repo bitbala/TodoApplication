@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.utils.encoding import force_str
 import os
+import threading
 
 @login_required
 def todo_list(request):
@@ -35,6 +36,12 @@ def send_email(user_email, subject, message):
         "subject": subject,
         "message": message
     }
+    thread = threading.Thread(target=thread_send_email, args=(email_data,))
+    thread.daemon=True
+    thread.start()
+
+
+def thread_send_email(email_data):
     # URL of the external service to send email
     #url = 'http://127.0.0.1:8001/send-email/'
     domain = os.environ.get('EMAIL_DOMAIN')
