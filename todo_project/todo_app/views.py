@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.utils.encoding import force_str
+import os
 
 @login_required
 def todo_list(request):
@@ -35,7 +36,9 @@ def send_email(user_email, subject, message):
         "message": message
     }
     # URL of the external service to send email
-    url = 'http://127.0.0.1:8001/send-email/'
+    #url = 'http://127.0.0.1:8001/send-email/'
+    domain = os.environ.get('EMAIL_DOMAIN')
+    url = f'http://{domain}/send-email/'
     try:
         response = requests.post(url, json=email_data)
         response.raise_for_status()
@@ -103,9 +106,10 @@ def register(request):
             password = form.cleaned_data['password']
             
             # Forward registration request to microservice
-            url = 'http://127.0.0.1:8000/account/api/register/'
+            #url = 'http://127.0.0.1:8000/account/api/register/'
+            domain = os.environ.get('AUTH_DOMAIN')
+            url = f'http://{domain}/account/api/register/'
             data = {'name': name, 'email': email, 'password': password}
-            print (data)
             response = requests.post(url, json=data)
             if response.status_code == 200:
                 # Registration successful, redirect to login page or any other page

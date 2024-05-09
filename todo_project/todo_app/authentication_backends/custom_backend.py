@@ -1,6 +1,7 @@
 import json
 import requests
 from django.contrib.auth.models import User
+import os
 
 class MicroserviceBackend:
     def authenticate(self, request, username=None, password=None):
@@ -10,7 +11,8 @@ class MicroserviceBackend:
         # Forward authentication request to microservice
         headers = {'Content-Type': 'application/json'}
         data = json.dumps({'email': username, 'password': password})
-        response = requests.post('http://127.0.0.1:8000/account/api/login/', headers=headers, data=data)
+        domain = os.environ.get('AUTH_DOMAIN')
+        response = requests.post(f'http://{domain}/account/api/login/', headers=headers, data=data)
 
         # Check if authentication successful
         if response.status_code == 200:

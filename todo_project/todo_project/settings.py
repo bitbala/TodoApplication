@@ -57,9 +57,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8080',
-]
+CORS_ALLOWED_ORIGINS = ['http://*']
 
 ROOT_URLCONF = 'todo_project.urls'
 
