@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,13 @@ SECRET_KEY = 'django-insecure-162hh#25+u9(@g0p*&jg#&l$!+ixz_3t-@^_68x_6_h=zd@@wi
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+if not 'DOCKER_CONTAINER' in os.environ:
+    print ('Entered DOCKER CONTAINER')
+    os.environ['EMAIL_DOMAIN'] = '127.0.0.1:8001'
+    os.environ['AUTH_DOMAIN'] = '127.0.0.1:8000'
+
 
 # Application definition
 
